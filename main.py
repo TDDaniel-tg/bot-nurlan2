@@ -2,11 +2,13 @@ import asyncio
 import logging
 import signal
 import sys
+import os
 from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQueryHandler, filters
 
 from config.settings import TELEGRAM_BOT_TOKEN, LOG_LEVEL
 from bot.handlers import BotHandlers
 from services.database import Database
+from health_server import HealthServer
 
 # Настройка логирования
 logging.basicConfig(
@@ -18,6 +20,11 @@ logger = logging.getLogger(__name__)
 def main():
     """Главная функция для запуска бота"""
     try:
+        # Запуск health server для Railway
+        port = int(os.getenv('PORT', 8080))
+        health_server = HealthServer(port)
+        health_server.start_server()
+        
         # Инициализация базы данных
         logger.info("Initializing database...")
         db = Database()
