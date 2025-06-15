@@ -8,11 +8,13 @@ secrets.json
 
 # API ключи и токены
 *token*
-*key*
 *secret*
 *api*
 *.pem
 *.key
+# Исключаем файлы с ключами, но НЕ keyboards.py
+*key*
+!bot/keyboards.py
 
 # База данных
 *.db
